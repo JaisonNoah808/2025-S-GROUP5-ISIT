@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.vision.common)
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
     implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,6 +68,14 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.compose.ui:ui:1.7.8")
+    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.7.8")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
 
 }
