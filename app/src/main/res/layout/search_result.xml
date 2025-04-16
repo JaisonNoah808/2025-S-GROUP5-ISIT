@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- XML template for 1 SearchResult view -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/foodDrinkContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="24dp"
+    android:background="@drawable/green_border"
+    android:padding="0dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <!-- Image -->
+    <ImageView
+        android:id="@+id/foodDrinkIcon"
+        android:layout_width="70dp" 
+        android:layout_height="70dp" 
+        android:src="@drawable/salad"  
+        android:scaleType="centerCrop"
+        android:contentDescription="Chicken Caesar Salad image" 
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="-275dp" />
+    
+    <!-- Text  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/foodDrinkTextContainer"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Title  -->
+        <TextView
+            android:id="@+id/foodDrinkTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Caesar Salad"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textAlignment="viewStart"
+            android:gravity="left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/foodDrinkIcon"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Calories -->
+        <TextView
+            android:id="@+id/foodDrinkCaloriesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="200 cal"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:textAlignment="viewStart"
+            android:gravity="left"
+            app:layout_constraintBottom_toTopOf="@id/foodDrinkTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/foodDrinkIcon"
+            android:layout_marginBottom="5dp" 
+            android:layout_marginStart="0dp" />
+        
+        <!-- Read More button -->
+        <Button
+            android:id="@+id/readMoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rounded_corner_button"
+            android:maxLines="1"
+            android:padding="-5dp"
+            android:textSize="10sp"
+            android:clipToOutline="false"
+            android:text="@string/read_more"
+            android:textAlignment="viewStart"
+            app:layout_constraintTop_toBottomOf="@id/foodDrinkTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="5dp" 
+            android:layout_marginTop="5dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <!-- Pie Chart -->
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="-15dp"
+        app:layout_constraintStart_toEndOf="@+id/foodDrinkTextContainer"
+        app:layout_constraintEnd_toEndOf="@+id/foodDrinkContainer"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

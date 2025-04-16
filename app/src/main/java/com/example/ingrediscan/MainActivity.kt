@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
     //GenAI End
-}
+
 
     //helper function
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -141,6 +141,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 
