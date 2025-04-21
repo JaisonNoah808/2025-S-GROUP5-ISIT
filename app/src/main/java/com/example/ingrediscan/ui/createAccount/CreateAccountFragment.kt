@@ -30,6 +30,20 @@ class CreateAccountFragment : Fragment() {
         _binding = FragmentCreateAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // sign up button
+        binding.buttonSignup.setOnClickListener {
+            val fullname = binding.enterFullname.text.toString().trim()
+            val username = binding.enterUsername.text.toString().trim()
+            val password = binding.enterPassword.text.toString().trim()
+            val confirmPassword = binding.confirmPassword.text.toString().trim()
+
+            // TO DO: checking error and valid input
+
+            // successful sign up
+            findNavController().navigate(R.id.signup_to_home)
+
+        }
+
         return root
     }
 

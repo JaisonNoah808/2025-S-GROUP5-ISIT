@@ -11,7 +11,7 @@ class CreateAccountViewModel : ViewModel() {
     private val _password = MutableLiveData<String>()
     val password: LiveData<String> get() = _password
 
-    fun login(username: String, password: String) {
+    fun createAccount(username: String, password: String) {
         _username.value = username
         _password.value = password
     }
