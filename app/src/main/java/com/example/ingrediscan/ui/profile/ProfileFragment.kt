@@ -1,10 +1,15 @@
 package com.example.ingrediscan.ui.profile
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentProfileBinding
@@ -99,6 +104,64 @@ class ProfileFragment : Fragment() {
                 profileViewModel.setActivityLevel(selected)
                 profileViewModel.updateCalorieGoals()
             }
+        }
+
+        // *** Change Password Button ***
+        // REQUIRES BACK END FOR FULL FUNCTIONALITY
+        binding.profileButtonPassword.setOnClickListener {
+            val context = requireContext()
+            val layout = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(50, 40, 50, 10)
+            }
+
+            val oldPasswordInput = EditText(context).apply {
+                hint = "Current Password"
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            val newPasswordInput = EditText(context).apply {
+                hint = "New Password"
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            val confirmPasswordInput = EditText(context).apply {
+                hint = "Confirm New Password"
+                inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            layout.addView(oldPasswordInput)
+            layout.addView(newPasswordInput)
+            layout.addView(confirmPasswordInput)
+
+            AlertDialog.Builder(context)
+                .setTitle("Change Password")
+                .setView(layout)
+                .setPositiveButton("Submit") { dialog, _ ->
+                    val oldPass = oldPasswordInput.text.toString()
+                    val newPass = newPasswordInput.text.toString()
+                    val confirmPass = confirmPasswordInput.text.toString()
+
+                    when {
+                        oldPass.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty() -> {
+                            Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
+                        }
+                        newPass != confirmPass -> {
+                            Toast.makeText(context, "New passwords do not match", Toast.LENGTH_SHORT).show()
+                        }
+                        oldPass == newPass -> {
+                            Toast.makeText(context, "New password must be different", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            // TODO: Validate oldPass and save newPass
+                            Toast.makeText(context, "Password changed successfully", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+                .show()
         }
 
         // *** BMI Text ***
