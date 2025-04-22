@@ -53,4 +53,16 @@ class MealTest {
         assertEquals("should be zero",0,mealLog.getTotalConsumed() )
     }
 
+    /** test that checks if function removes all the meals**/
+    @Test
+    fun removeALLTheMeals(){
+        mealLog.logMeal(500,MealType.BREAKFAST, "Steak and eggs")
+        mealLog.logMeal(100, MealType.SNACK,"apple")
+        mealLog.logMeal(1500,MealType.MEAL, "Pasta and chicken")
+        mealLog.logMeal(800, MealType.SNACK, "lava cake")
+        assertEquals("should be the total sum of calories",2900,mealLog.getTotalConsumed())
+        mealLog.clearAllMeals()
+        assertEquals("should be zero", 0, mealLog.getTotalConsumed())
+    }
+
 }

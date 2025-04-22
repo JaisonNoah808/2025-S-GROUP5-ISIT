@@ -58,5 +58,14 @@ class MealLog {
         return mealEntries.toList()
     }
 
+    /** clears everything from list **/
+    fun clearAllMeals(){
+        if(mealEntries.isNotEmpty()){
+            mealEntries.removeAll(mealEntries);
+        }
+        else
+            println("List is empty")
+    }
+
 
 }
