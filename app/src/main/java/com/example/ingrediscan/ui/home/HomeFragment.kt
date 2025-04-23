@@ -53,26 +53,50 @@ class HomeFragment : Fragment() {
         // Find the button and set the click listener
         val breakfastAddButton: View = binding.BreakfastAddButton
         breakfastAddButton.setOnClickListener {
+
+            //Used to pass the meal type info to the LogMealBySearch fragment
+            val bundle = Bundle().apply {
+                putString("mealType", "BREAKFAST")
+            }
+
             // Navigate to LogMealBySearchFragment from Log Meal for Breakfast button
-            findNavController().navigate(R.id.navigation_log_meal_by_search)
+            findNavController().navigate(R.id.navigation_log_meal_by_search, bundle)
         }
 
         val lunchAddButton : View = binding.LunchAddButton
         lunchAddButton.setOnClickListener {
+
+            //Used to pass the meal type info to the LogMealBySearch fragment
+            val bundle = Bundle().apply {
+                putString("mealType", "LUNCH")
+            }
+
             // Navigate to LogMealBySearchFragment from Log Meal for Lunch button
-            findNavController().navigate(R.id.navigation_log_meal_by_search)
+            findNavController().navigate(R.id.navigation_log_meal_by_search, bundle)
         }
 
         val dinnerAddButton : View = binding.DinnerAddButton
         dinnerAddButton.setOnClickListener {
+
+            //Used to pass the meal type info to the LogMealBySearch fragment
+            val bundle = Bundle().apply {
+                putString("mealType", "DINNER")
+            }
+
             // Navigate to LogMealBySearchFragment from Log Meal for Dinner button
-            findNavController().navigate(R.id.navigation_log_meal_by_search)
+            findNavController().navigate(R.id.navigation_log_meal_by_search, bundle)
         }
 
         val snackAddButton : View = binding.SnackAddButton
         snackAddButton.setOnClickListener {
+
+            //Used to pass the meal type info to the LogMealBySearch fragment
+            val bundle = Bundle().apply {
+                putString("mealType", "SNACK")
+            }
+
             //Navigate to LogMealBySearchFragment from Log Meal for Snack Button
-            findNavController().navigate(R.id.navigation_log_meal_by_search)
+            findNavController().navigate(R.id.navigation_log_meal_by_search, bundle)
         }
 
         return root

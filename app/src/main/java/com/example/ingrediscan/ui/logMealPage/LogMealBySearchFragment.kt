@@ -31,11 +31,15 @@ class LogMealBySearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Retrieve the argument passed from the HomeFragment
+        var mealType = arguments?.getString("mealType")
 
         // Set SearchView listener to update ViewModel data
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { logMealBySearchViewModel.updateNutritionData(it) }
+                query?.let {
+                    logMealBySearchViewModel.updateNutritionData(it, mealType)
+                }
                 return true
             }
 

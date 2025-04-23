@@ -20,6 +20,7 @@ composeBom = "2024.04.01"
 textRecognition = "16.0.0"
 visionCommon = "17.3.0"
 junitJupiter = "5.8.1"
+firebaseFirestore = "25.1.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "textRecognition" }
 vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

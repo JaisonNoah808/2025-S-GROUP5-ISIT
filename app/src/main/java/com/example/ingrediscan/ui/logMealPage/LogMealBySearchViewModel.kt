@@ -7,8 +7,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import android.util.Log
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LogMealBySearchViewModel : ViewModel() {
+
+    private val db = FirebaseFirestore.getInstance()
+
+    // I set these values to be mutable so that it dynamically displays for my fragment_log_meal_by_search.xml file
 
     private val _protein = MutableLiveData<String>("")
     val protein: LiveData<String> get() = _protein
@@ -106,8 +113,16 @@ class LogMealBySearchViewModel : ViewModel() {
     private val _magnesiumLabel = MutableLiveData<String>("")
     val magnesiumLabel: LiveData<String> get() = _magnesiumLabel
 
+    /*
+    1. Parameters: foodName and mealType that is set in the LogMealBySearchFragment.kt file
+    2. Purpose:
+        a. From the API Call, it sets the mutable string values from above to the API response values
+        b. This way, in the fragment_log_meal_by_search.xml file,
+           these values are displayed after the user searches for a food / drink
+    3. Returns: N/A
+    */
+    fun updateNutritionData(query: String, mealType: String?) {
 
-    fun updateNutritionData(query: String) {
         viewModelScope.launch {
             try {
                 val apiResponse = FoodApiService.fetchFoodInfo(query)
@@ -145,10 +160,63 @@ class LogMealBySearchViewModel : ViewModel() {
                     _vitaminC.value    = it.vitaminC
                     _vitaminD.value    = it.vitaminD
                     _magnesium.value   = it.magnesium
+                    saveToFirestore(query, mealType)
+
                 }
             } catch (e: Exception) {
                 Log.e("LogMealViewModel", "Error fetching food data: ${e.message}")
             }
         }
+    }
+
+    /*
+        1. Parameters: N/A
+        2. Purpose: formats the current date & time to the one below as a string
+        3. Returns: the formatted date + time as a string
+     */
+    fun getCurrentTime(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date = Date()
+        return dateFormat.format(date)
+    }
+
+    /*
+        1. Parameters: foodName and mealType that is set in the LogMealBySearchFragment.kt file
+        2. Purpose: sets the food name & its nutrition information and the meal type to the Firebase database
+        3. Returns: N/A
+     */
+    fun saveToFirestore(foodName: String, mealType: String?) {
+
+        /*
+           In firebase firestore database, duplicates aren't allowed. Thus, the document (like an ID) must be unique
+           Thus, I create a unique document by using the adding the current time & food name together
+           This way, if the user logs the same food name back to back, it will show up in the database
+         */
+
+        val timestamp = getCurrentTime()
+        val uniqueFoodName = "$timestamp $foodName"
+
+        val nutritionMap = mapOf(
+            "Calories" to (_calories.value ?: "0 Calories"),
+            "Protein" to (_protein.value ?: "0.0 G"),
+            "Fat" to (_fat.value ?: "0.0 G"),
+            "Carbs" to (_carbs.value ?: "0.0 G"),
+            "MealType" to mealType
+        )
+        Log.d("DB-test", "Calories: " + _calories.value)
+
+        db.collection("loggedMeals")
+            //creates the unique document (like a key in a hashmap)
+            .document(uniqueFoodName)
+
+            //creates the mapping values for the document (like the values in a hashmap)
+            .set(nutritionMap)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Database Success!")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Firestore", "Database Error!", e)
+            }
+
     }
 }
