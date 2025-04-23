@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // login button
         binding.buttonLogin.setOnClickListener {
             val username = binding.enterUsername.text.toString().trim()
             val password = binding.enterPassword.text.toString().trim()
@@ -37,9 +38,15 @@ class LoginFragment : Fragment() {
             // Pop up an error message when inputs for username and password are empty
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "Please enter username and password.", Toast.LENGTH_SHORT).show()
-            } else {
+            } else { // successful login
+                // TO DO: back end
                 findNavController().navigate(R.id.login_to_home)
             }
+        }
+
+        // sign up button
+        binding.buttonSignup.setOnClickListener {
+            findNavController().navigate(R.id.navigation_create_account)
         }
 
         return root

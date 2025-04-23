@@ -16,6 +16,23 @@
             app:destination="@id/navigation_home"
             app:popUpTo="@id/navigation_login"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/login_to_signup"
+            app:destination="@id/navigation_create_account" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_create_account"
+        android:name="com.example.ingrediscan.ui.createAccount.CreateAccountFragment"
+        android:label="@string/signup"
+        tools:layout="@layout/fragment_create_account">
+
+        <action
+            android:id="@+id/signup_to_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
