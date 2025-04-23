@@ -90,7 +90,9 @@ class SearchFragment : Fragment() {
         val searchResultsList = listOf(
             SearchResult(1, R.drawable.salad, "Caesar Salad", 200, 7, 10, 18, "B-", "A classic Caesar salad offers crisp romaine lettuce tossed with creamy dressing, crunchy croutons, and a sprinkle of parmesan. While it's flavorful and has some fiber and calcium, it can be high in fat and sodium without much protein unless you add chicken or another topping."),
             SearchResult(2, R.drawable.sandwich, "BLT Sandwich", 500, 13, 30, 25, "C+", "A BLT is a satisfying sandwich with crispy bacon, fresh lettuce, and juicy tomato layered between toasted bread and a swipe of mayo. It's tasty and filling but relatively high in fat and sodium, and not especially nutrient-dense."),
-            SearchResult(3, R.drawable.spaghetti, "Spaghetti", 500, 10, 60, 4, "B", "Spaghetti with marinara is a simple, comforting dish made mostly of pasta and tomato-based sauce. It’s low in fat and can be a decent source of fiber and vitamins if whole wheat pasta or extra veggies are added, but it's fairly carb-heavy.")
+            SearchResult(3, R.drawable.spaghetti, "Spaghetti", 500, 10, 60, 4, "B", "Spaghetti with marinara is a simple, comforting dish made mostly of pasta and tomato-based sauce. It’s low in fat and can be a decent source of fiber and vitamins if whole wheat pasta or extra veggies are added, but it's fairly carb-heavy."),
+            SearchResult(4, R.drawable.granola, "Granola Bar", 100, 4, 25, 6, "A-", "A granola bar is a convenient, portable snack made from oats, nuts, and sweeteners, offering a quick source of energy and nutrients for active lifestyles."),
+            SearchResult(5, R.drawable.banana, "Banana", 105, 2, 27, 1, "A", "A banana is a naturally sweet, potassium-rich fruit that provides quick-digesting carbs, making it ideal for pre- or post-workout energy.")
         )
 
         // Combine test items into 1 XML container
