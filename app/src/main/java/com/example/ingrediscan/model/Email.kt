@@ -19,10 +19,13 @@ class Email(private val value: String) {
     // if we are going to handle emails and passwords ourselves, then we'll need to
     // add more rigorous validation here.
     companion object {
-        private fun isValidEmail(email: String): Boolean {
+        private fun isValidEmail(email: String?): Boolean {
             // Simple email validation
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
+            if (email == null) {
+                return false
+            }
+            val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            return emailRegex.matches(email)
         }
     }
 }
