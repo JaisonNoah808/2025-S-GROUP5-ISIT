@@ -3,24 +3,12 @@ package com.example.ingrediscan.ui.scan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -35,81 +23,188 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ingrediscan.R
-import com.example.ingrediscan.ui.theme.lightGreen
-// Compose
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-
-// CameraX
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-// AndroidX Utils
+import androidx.compose.foundation.gestures.snapping.SnapPosition
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.ingrediscan.R
+import com.example.ingrediscan.ui.theme.lightGreen
+import com.example.ingrediscan.ui.previous_results.WavyCircleExample
+
 
 @Composable
 fun CameraPreview() {
-    // Get the current context and lifecycle owner from the Compose environment
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Use AndroidView to embed a traditional Android View (PreviewView) into a Compose UI
     AndroidView(
         factory = { ctx ->
-            // PreviewView is a CameraX component that displays the camera feed
             val previewView = PreviewView(ctx)
-
-            // Asynchronously get a camera provider instance
             val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
 
-            // When the camera provider is ready, configure the preview use case
             cameraProviderFuture.addListener({
-                // Get the actual CameraProvider
                 val cameraProvider = cameraProviderFuture.get()
-
-                // Build the camera preview use case
                 val preview = Preview.Builder().build().also {
-                    // Set the PreviewView as the surface provider for the preview
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
-
-                // Select the back-facing camera
                 val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-                // Unbind all previous use cases (required before re-binding)
                 cameraProvider.unbindAll()
-
-                // Bind the preview use case to the lifecycle of the screen
                 cameraProvider.bindToLifecycle(
-                    lifecycleOwner,    // Makes preview stop/start with the screen
-                    cameraSelector,    // Specifies the back camera
-                    preview            // The preview use case to display camera feed
+                    lifecycleOwner,
+                    cameraSelector,
+                    preview
                 )
-            }, ContextCompat.getMainExecutor(ctx)) // Run on the main UI thread
+            }, ContextCompat.getMainExecutor(ctx))
 
-            // Return the native Android view that will be embedded in Compose
             previewView
         },
-        modifier = Modifier.fillMaxSize() // Make the camera preview fill the entire screen
+        modifier = Modifier.fillMaxSize()
     )
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScanScreen(
     viewModel: ScanViewModel = viewModel(),
     onNavigateHome: () -> Unit
 ) {
-    BoxWithCutout(viewModel, onNavigateHome)
+    val showResult = remember { mutableStateOf(false) }
+    BoxWithCutout(
+        viewModel = viewModel,
+        onNavigateHome = onNavigateHome,
+        onShutterClick = { showResult.value = true }
+    )
+
+    if (showResult.value) {
+        ModalBottomSheet(
+            onDismissRequest = { showResult.value = false },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1000.dp)
+        ) {
+            ScanResultSheetContent( // Example content
+                itemName = "Wild Blueberry Granola Bars",
+                company = "Sister Fruit Company",
+                facts = listOf("Calories: 146kcal", "Protein: 8g", "Carbs: 25g", "Fat: 10g"),
+                description = "The All-Natural Granola Bar — LOADED with Blueberries. " +
+                        "A premium blend of fresh Wild Blueberries, whole grains and almonds " +
+                        "are carefully baked in small batches for a soft chewy snack that is deliciously fruity!",
+                grade = "B+",
+                onScanMore = { showResult.value = false }
+            )
+        }
+    }
 }
+
+@Composable
+fun ScanResultSheetContent(
+    itemName: String,
+    company: String,
+    facts: List<String>,
+    description: String,
+    grade: String,
+    onScanMore: () -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Scrollable content area
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 100.dp), // leave space for the button
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = itemName,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                fontSize = 48.sp,
+                lineHeight = 52.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = company,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 26.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 14.dp)
+            )
+
+            facts.forEach {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontSize = 22.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp)
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                WavyCircleExample(text = grade)
+            }
+
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                lineHeight = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 14.dp, top = 8.dp)
+            )
+
+        }
+
+        // Fixed bottom button
+        Button(
+            onClick = onScanMore,
+            shape = RoundedCornerShape(50),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF6C63FF),
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp, vertical = 24.dp)
+                .fillMaxWidth()
+                .height(56.dp)
+        ) {
+            Text("Scan More", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        }
+    }
+}
+
 
 @Composable
 fun BoxWithCutout(
     viewModel: ScanViewModel,
-    onNavigateHome: () -> Unit
+    onNavigateHome: () -> Unit,
+    onShutterClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -119,48 +214,37 @@ fun BoxWithCutout(
             }
             .drawWithCache {
                 onDrawWithContent {
-                    // Draw the main content
                     drawContent()
-
-                    // Define the size and position of the rounded rectangle
-                    val rectWidth = 350.dp.toPx() // Width of the rounded rectangle
-                    val rectHeight = 600.dp.toPx() // Height of the rounded rectangle
-                    val cornerRadius = 20.dp.toPx() // Corner radius of the rounded rectangle
-
-                    // Draw a rounded rectangle with BlendMode.Clear to create the cutout
+                    val rectWidth = 350.dp.toPx()
+                    val rectHeight = 600.dp.toPx()
+                    val cornerRadius = 20.dp.toPx()
                     drawRoundRect(
                         color = Color.Black,
                         topLeft = Offset(
-                            (size.width - rectWidth) / 2, // Center the rectangle horizontally
-                            (size.height - rectHeight) / 2 - 50.dp.toPx() // Move up by 70dp
+                            (size.width - rectWidth) / 2,
+                            (size.height - rectHeight) / 2 - 50.dp.toPx()
                         ),
                         size = Size(rectWidth, rectHeight),
                         cornerRadius = CornerRadius(cornerRadius, cornerRadius),
-                        blendMode = BlendMode.Clear // Use BlendMode.Clear to cut out the rectangle
+                        blendMode = BlendMode.Clear
                     )
                 }
             }
     ) {
-        // Show camera as main background
         CameraPreview()
-        // Semi-transparent black overlay
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.80f))
-        ) {
-            // Your content goes here
-        }
+        ) {}
 
-        // ButtonRow at the bottom of the screen
         ButtonRow(
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Align to the bottom center
-                .padding(bottom = 16.dp), // Add some padding at the bottom
-            onImageButtonClick = { viewModel.onImageButtonClick() }
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+            onImageButtonClick = { onShutterClick() }
         )
 
-        // Example of observing LiveData and using the toggleFlash function
         val isFlashOn by viewModel.isFlashOn.observeAsState(false)
 
         Row(
@@ -181,16 +265,16 @@ fun BoxWithCutout(
                 tint = Color.White
             )
             Image(
-                painter = painterResource(id = R.drawable.boltauto), // Flash Icon
-                contentDescription = "Change flash on/off", // Accessibility description
+                painter = painterResource(id = R.drawable.boltauto),
+                contentDescription = "Change flash on/off",
                 modifier = Modifier
                     .size(35.dp)
                     .clickable { viewModel.toggleFlash() },
                 colorFilter = ColorFilter.tint(Color.White)
             )
             Icon(
-                imageVector = Icons.Default.Settings, // Settings Icon
-                contentDescription = "Settings", // Accessibility description
+                imageVector = Icons.Default.Settings,
+                contentDescription = "Settings",
                 modifier = Modifier
                     .size(40.dp)
                     .clickable { viewModel.onSettingsClick() },
@@ -201,80 +285,72 @@ fun BoxWithCutout(
 }
 
 @Composable
-fun ButtonRow(modifier: Modifier = Modifier, onImageButtonClick:() -> Unit) {
+fun ButtonRow(modifier: Modifier = Modifier, onImageButtonClick: () -> Unit) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp) // Add horizontal padding
+            .padding(horizontal = 16.dp)
             .padding(bottom = 30.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Button(
             onClick = {},
-//            modifier = Modifier
-//                .size(80.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = lightGreen,
                 contentColor = Color.White
             )
         ) {
             Image(
-                painter = painterResource(id = R.drawable.applepng), // Replace with your drawable resource
-                contentDescription = "Produce Icon", // Accessibility description
+                painter = painterResource(id = R.drawable.applepng),
+                contentDescription = "Produce Icon",
                 colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier
-                    .size(50.dp) // Set the size of the image
+                modifier = Modifier.size(50.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        // Image button (replaces the Box)
+
         ImageButton(
-            onClick = onImageButtonClick, // Pass the click handler
-            imageRes = R.drawable.aperture, // Replace with your drawable resource
-            contentDescription = "Image Button", // Accessibility description
-            modifier = Modifier
-                .size(100.dp), // Set the size of the image button
+            onClick = onImageButtonClick,
+            imageRes = R.drawable.aperture,
+            contentDescription = "Image Button",
+            modifier = Modifier.size(100.dp)
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {},
-//            modifier = Modifier
-//                .size(80.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = lightGreen,
                 contentColor = Color.White
             )
         ) {
             Image(
-                painter = painterResource(id = R.drawable.barpng), // Replace with your drawable resource
-                contentDescription = "Barcode Icon", // Accessibility description
+                painter = painterResource(id = R.drawable.barpng),
+                contentDescription = "Barcode Icon",
                 colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier
-                    .size(50.dp) // Set the size of the image
+                modifier = Modifier.size(50.dp)
             )
         }
     }
 }
 
-// The composable for the camera button to scan item/code
 @Composable
 fun ImageButton(
     onClick: () -> Unit,
-    imageRes: Int, // Drawable resource ID for the image
-    contentDescription: String, // Accessibility description
+    imageRes: Int,
+    contentDescription: String,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .clickable(onClick = onClick) // Make the image clickable
+        modifier = modifier.clickable(onClick = onClick)
     ) {
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = contentDescription,
-            modifier = Modifier.fillMaxSize(), // Fill the Box with the image
+            modifier = Modifier.fillMaxSize(),
             colorFilter = ColorFilter.tint(Color.White)
         )
     }

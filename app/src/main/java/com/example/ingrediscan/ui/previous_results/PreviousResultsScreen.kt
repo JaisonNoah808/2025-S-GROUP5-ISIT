@@ -61,14 +61,13 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
+                    .height(60.dp)
                     .background(Color.White)
                     .border(
                         width = 1.dp,
                         brush = SolidColor(Color.DarkGray),
                         shape = RectangleShape
-                    )
-                    .padding(top = 22.dp),
+                    ),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -98,7 +97,7 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(770.dp)
-                .padding(top = 70.dp) // Account for top bar
+                .padding(top = 60.dp) // Account for top bar
                 .padding(horizontal = 16.dp)
         ) {
             // 3. Calorie Summary Box
@@ -440,7 +439,7 @@ private fun NutrientProgressBar(
 
 // ====== GRADE BADGE (WAVY CIRCLE) ======
 @Composable
-private fun WavyCircleExample(text: String) {
+fun WavyCircleExample(text: String) {
     // Calculate colors based on grade
     val (fillColor, borderColor) = gradeToColors(text)
     Box {
