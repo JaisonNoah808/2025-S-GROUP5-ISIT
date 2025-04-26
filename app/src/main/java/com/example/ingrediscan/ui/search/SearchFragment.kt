@@ -21,6 +21,10 @@ import android.content.Intent
 import android.widget.Button
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
+import android.content.Intent
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 
 class SearchFragment : Fragment() {
 
