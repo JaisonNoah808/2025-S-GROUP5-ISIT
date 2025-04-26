@@ -13,11 +13,11 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <!-- <ImageView
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop" /> -->
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/titleTextView"

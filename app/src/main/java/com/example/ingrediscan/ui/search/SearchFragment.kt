@@ -16,8 +16,11 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import androidx.core.content.ContextCompat
-import android.widget.ImageView
 import android.widget.LinearLayout
+import android.content.Intent
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 
 class SearchFragment : Fragment() {
 
@@ -117,12 +120,16 @@ class SearchFragment : Fragment() {
             // When "Read More" button is clicked:
             val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
 
+            // readMoreButton.setOnClickListener {
+            //     // val view = layoutInflater.inflate(R.layout.search_result, null)
+            //     val intent = Intent(requireContext(), SearchDetail::class.java)
+            //     intent.putExtra("title", item.name)
+            //     intent.putExtra("description", item.description)
+            //     intent.putExtra("imageID", item.imageID) 
+            //     startActivity(intent)
+            // }
             readMoreButton.setOnClickListener {
-                val intent = Intent(requireContext(), SearchDetail::class.java)
-                intent.putExtra("title", item.name)
-                intent.putExtra("description", item.description)
-                intent.putExtra("imageUrl", item.imageID)
-                startActivity(intent)
+                findNavController().navigate(R.id.search_detail_result)
             }
 
         }
