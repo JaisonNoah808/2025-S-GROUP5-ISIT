@@ -22,7 +22,7 @@ class PreviousResultsViewModel : ViewModel() {
                 ScannedItem("Protein Shake", "Muscle Fuel", 150, 25, 6, 2, "C-"),
                 ScannedItem("Greek Yogurt", "YogurtLand", 100, 10, 7, 3, "D"),
                 ScannedItem("Dark Chocolate", "Cocoa Bliss", 170, 2, 12, 14, "C+"),
-                ScannedItem("Almond Milk", "Nutty Farms", 60, 1, 8, 3, "F"),
+                ScannedItem("Almond Milk", "Nutty Farms", 60, 1, 8, 3, "E"),
                 ScannedItem("Oatmeal Cookies", "Grandma's Bakes", 180, 3, 22, 9, "D-")
             )
         }

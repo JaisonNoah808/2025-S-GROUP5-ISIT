@@ -61,6 +61,24 @@ object FoodApiService {
             null // return null
         }
     }
+
+    /**
+     * Attempts to fetch food information by using a barcode as a text search query.
+     * Note: USDA API is not designed for barcode searching, so results may vary.
+     */
+    suspend fun fetchFoodInfoByBarcode(barcode: String): FoodItem? {
+        return try {
+            // Send a search query with the barcode as the keyword
+            val response = api.searchFoods(barcode, API_KEY)
+            // Return the first matching food item if any found
+            response.foods.firstOrNull()
+        } catch (e: Exception) {
+            // If any error occurs during the API call, log and return null
+            println("Error fetching food data by barcode: ${e.message}")
+            null
+        }
+    }
+
 }
 
 // Example of how to retrieve data from the foodItem object

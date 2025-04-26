@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -439,7 +440,7 @@ private fun NutrientProgressBar(
 
 // ====== GRADE BADGE (WAVY CIRCLE) ======
 @Composable
-fun WavyCircleExample(text: String) {
+fun WavyCircleExample(text: String, fontSize: TextUnit = 60.sp) {
     // Calculate colors based on grade
     val (fillColor, borderColor) = gradeToColors(text)
     Box {
@@ -472,7 +473,7 @@ fun WavyCircleExample(text: String) {
         Text(
             text = text,
             color = Color.White,
-            fontSize = 60.sp,
+            fontSize = fontSize,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
         )
@@ -488,7 +489,7 @@ private fun gradeToColors(grade: String): Pair<Color, Color> {
         'B' -> Pair(GradeBlue, GradeDarkBlue)
         'C' -> Pair(GradeYellow, GradeDarkYellow)
         'D' -> Pair(GradeOrange, GradeDarkOrange)
-        'F' -> Pair(GradeRed, GradeDarkRed)
+        'E' -> Pair(GradeRed, GradeDarkRed)
         else -> Pair(GradeGray, GradeDarkGray)
     }
 }
