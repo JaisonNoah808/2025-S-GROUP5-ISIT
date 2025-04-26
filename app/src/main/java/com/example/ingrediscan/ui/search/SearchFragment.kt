@@ -113,6 +113,18 @@ class SearchFragment : Fragment() {
             
             // add item to screen
             container.addView(cardView)
+
+            // When "Read More" button is clicked:
+            val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
+
+            readMoreButton.setOnClickListener {
+                val intent = Intent(requireContext(), SearchDetail::class.java)
+                intent.putExtra("title", item.name)
+                intent.putExtra("description", item.description)
+                intent.putExtra("imageUrl", item.imageID)
+                startActivity(intent)
+            }
+
         }
     }
 
