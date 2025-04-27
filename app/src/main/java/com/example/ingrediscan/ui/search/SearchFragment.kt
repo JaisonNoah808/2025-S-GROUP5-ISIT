@@ -119,17 +119,14 @@ class SearchFragment : Fragment() {
 
             // When "Read More" button is clicked:
             val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
-
-            // readMoreButton.setOnClickListener {
-            //     // val view = layoutInflater.inflate(R.layout.search_result, null)
-            //     val intent = Intent(requireContext(), SearchDetail::class.java)
-            //     intent.putExtra("title", item.name)
-            //     intent.putExtra("description", item.description)
-            //     intent.putExtra("imageID", item.imageID) 
-            //     startActivity(intent)
-            // }
             readMoreButton.setOnClickListener {
-                findNavController().navigate(R.id.search_detail_result)
+                val bundle = Bundle().apply {
+                    putString("title", item.name)
+                    putString("description", item.description)
+                    putInt("imageID", item.imageID)
+                }
+                findNavController().navigate(R.id.search_detail_result, bundle)
+                
             }
 
         }

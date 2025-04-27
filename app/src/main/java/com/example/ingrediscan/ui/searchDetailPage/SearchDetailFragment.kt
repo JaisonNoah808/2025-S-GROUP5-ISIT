@@ -16,7 +16,8 @@ import com.example.ingrediscan.ui.searchDetailPage.SearchDetailViewModel
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.content.Intent
-// import com.bumptech.glide.Glide
+import com.example.ingrediscan.ui.search.SearchResult
+
 
 class SearchDetailFragment : Fragment() {
 
@@ -28,6 +29,16 @@ class SearchDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchDetailBinding.inflate(inflater, container, false)
+
+        val title = arguments?.getString("title") ?: "No Title"
+        val description = arguments?.getString("description") ?: "No Description"
+        val imageID = arguments?.getInt("imageID") ?: 0
+
+        binding.titleTextView.text = title
+        binding.descriptionTextView.text = description
+        binding.imageView.setImageResource(imageID)
+
+
         return binding.root
     }
 

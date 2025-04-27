@@ -44,7 +44,6 @@
     <fragment
         android:id="@+id/search_detail_result"
         android:name="com.example.ingrediscan.ui.searchDetailPage.SearchDetailFragment"
-        android:label="Detailed Search Result"
-        tools:layout="@layout/fragment_search_detail" />
+        tools:layout="@layout/fragment_search_detail"/>
 
 </navigation>
