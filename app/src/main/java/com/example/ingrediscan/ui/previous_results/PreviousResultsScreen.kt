@@ -439,6 +439,7 @@ private fun NutrientProgressBar(
 }
 
 // ====== GRADE BADGE (WAVY CIRCLE) ======
+// fontSize: TextUnit for dynamic resizing
 @Composable
 fun WavyCircleExample(text: String, fontSize: TextUnit = 60.sp) {
     // Calculate colors based on grade

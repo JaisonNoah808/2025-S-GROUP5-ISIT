@@ -71,6 +71,7 @@ class ScanViewModel : ViewModel() {
 
             if (product != null) {
                 // Product found — map OpenFoodFacts fields to our local model
+                // Also get defaults if no item found
                 _scannedItem.value = ScannedItem(
                     name = product.product_name ?: "Unknown Item",
                     brand = product.brands ?: "Unknown Brand",

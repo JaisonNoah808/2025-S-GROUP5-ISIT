@@ -43,6 +43,7 @@ object OpenFoodFactsApiService {
 
     /**
      * Nutritional information pulled from OpenFoodFacts for each product.
+     * Nutrition values are in grams.
      */
     data class Nutriments(
         @SerializedName("energy-kcal_100g")

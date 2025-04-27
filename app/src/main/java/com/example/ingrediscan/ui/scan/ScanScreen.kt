@@ -149,9 +149,9 @@ fun ScanScreen(
             onNavigateHome = onNavigateHome,
             onShutterClick = {
                 captureRequest.value = true // Set capture flag to true on shutter
-//                // TEMPORARY — emulator testing (OREOS FROM API)
-//                viewModel.fetchItemDetails("044000033248")
-//                showResult.value = true
+//                // TEMPORARY
+                viewModel.fetchItemDetails("047495116700")
+                showResult.value = true
 
             }
         )
