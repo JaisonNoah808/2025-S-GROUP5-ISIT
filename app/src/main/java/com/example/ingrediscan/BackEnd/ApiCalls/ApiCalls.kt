@@ -56,7 +56,9 @@ object FoodApiService {
         var vitaminD: String = "0.0 IU",
         var vitaminB6: String = "0.0 MG",
         var vitaminB12: String = "0.0 UG",
-        var magnesium: String = "0.0 MG"
+        var magnesium: String = "0.0 MG",
+        var quickFactsHeader: String = "QUICK FACTS",
+        var microNutrientsHeader: String = "MICRONUTRIENTS"
     )
 
     // Retrofit API interface defining the endpoint and parameters for food search
@@ -86,7 +88,7 @@ object FoodApiService {
                         "protein" -> requiredFoodNutrients.protein = "${nutrient.value} ${nutrient.unitName}"
                         "total lipid (fat)" -> requiredFoodNutrients.fats = "${nutrient.value} ${nutrient.unitName}"
                         "carbohydrate, by difference" -> requiredFoodNutrients.carbs = "${nutrient.value} ${nutrient.unitName}"
-                        "energy" -> requiredFoodNutrients.calories = "${nutrient.value} ${nutrient.unitName}"
+                        "energy" -> requiredFoodNutrients.calories = "${nutrient.value} Calories"
                         "total sugars" -> requiredFoodNutrients.sugar = "${nutrient.value} ${nutrient.unitName}"
                         "fiber, total dietary" -> requiredFoodNutrients.fiber = "${nutrient.value} ${nutrient.unitName}"
                         "cholesterol" -> requiredFoodNutrients.cholesterol = "${nutrient.value} ${nutrient.unitName}"
@@ -168,7 +170,11 @@ object FoodApiService {
                     vitaminD = "N/A",
                     vitaminB6 = "N/A",
                     vitaminB12 = "N/A",
-                    magnesium = "N/A"
+                    magnesium = "N/A",
+                    quickFactsHeader = "QUICK FACTS ERROR",
+                    microNutrientsHeader = "MICRONUTRIENTS ERROR"
+
+
                 )
             }
         } catch (e: Exception) {
@@ -188,7 +194,9 @@ object FoodApiService {
                 vitaminD = "N/A",
                 vitaminB6 = "N/A",
                 vitaminB12 = "N/A",
-                magnesium = "N/A"
+                magnesium = "N/A",
+                quickFactsHeader = "QUICK FACTS ERROR",
+                microNutrientsHeader = "MICRONUTRIENTS ERROR"
             )
         }
 
