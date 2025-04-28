@@ -16,7 +16,6 @@ class LogMealBySearchViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
 
     // I set these values to be mutable so that it dynamically displays for my fragment_log_meal_by_search.xml file
-
     private val _protein = MutableLiveData<String>("")
     val protein: LiveData<String> get() = _protein
 
@@ -112,7 +111,6 @@ class LogMealBySearchViewModel : ViewModel() {
 
     private val _magnesiumLabel = MutableLiveData<String>("")
     val magnesiumLabel: LiveData<String> get() = _magnesiumLabel
-
     /*
     1. Parameters: foodName and mealType that is set in the LogMealBySearchFragment.kt file
     2. Purpose:
@@ -122,7 +120,6 @@ class LogMealBySearchViewModel : ViewModel() {
     3. Returns: N/A
     */
     fun updateNutritionData(query: String, mealType: String?) {
-
         viewModelScope.launch {
             try {
                 val apiResponse = FoodApiService.fetchFoodInfo(query)
@@ -161,7 +158,6 @@ class LogMealBySearchViewModel : ViewModel() {
                     _vitaminD.value    = it.vitaminD
                     _magnesium.value   = it.magnesium
                     saveToFirestore(query, mealType)
-
                 }
             } catch (e: Exception) {
                 Log.e("LogMealViewModel", "Error fetching food data: ${e.message}")
