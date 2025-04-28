@@ -82,17 +82,19 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
         
-        // Hide the BottomNavigationView when the scan destination is displayed
+        // Hide the BottomNavigationView when the scan, login, or create account destination is displayed
         // Lines inside the if statement are for removing the action bar (if needed)
+        // Remove top status bar on home, search, profile, previous_results page
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
-            if (destination.id == R.id.navigation_scan) {
-                binding.navView.visibility = View.GONE
-                supportActionBar?.hide()
+            if (destination.id == R.id.navigation_scan ||
+                destination.id == R.id.navigation_login ||
+                destination.id == R.id.navigation_create_account) {
+                    binding.navView.visibility = View.GONE
+                    supportActionBar?.hide()
             } else {
                 binding.navView.visibility = View.VISIBLE
-                supportActionBar?.show()
+                supportActionBar?.hide()
             }
         }
 

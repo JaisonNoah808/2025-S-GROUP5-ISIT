@@ -173,8 +173,6 @@ object FoodApiService {
                     magnesium = "N/A",
                     quickFactsHeader = "QUICK FACTS ERROR",
                     microNutrientsHeader = "MICRONUTRIENTS ERROR"
-
-
                 )
             }
         } catch (e: Exception) {
