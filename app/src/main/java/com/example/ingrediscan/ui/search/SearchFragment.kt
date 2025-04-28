@@ -120,6 +120,7 @@ class SearchFragment : Fragment() {
             // When "Read More" button is clicked:
             val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
             readMoreButton.setOnClickListener {
+                // pass SearchResult arguments to display on new page
                 val bundle = Bundle().apply {
                     putString("title", item.name)
                     putString("description", item.description)

@@ -38,7 +38,6 @@ class SearchDetailFragment : Fragment() {
         binding.descriptionTextView.text = description
         binding.imageView.setImageResource(imageID)
 
-
         return binding.root
     }
 
@@ -47,20 +46,3 @@ class SearchDetailFragment : Fragment() {
         _binding = null
     }
 }
-
-// class SearchDetailFragment : AppCompatActivity() {
-//     override fun onCreate(savedInstanceState: Bundle?) {
-//         super.onCreate(savedInstanceState)
-//         setContentView(R.layout.search_detail)
-
-//         val title = intent.getStringExtra("title")
-//         val description = intent.getStringExtra("description")
-//         val imageID = intent.getIntExtra("imageID", 0) // <-- Correct key and method
-
-
-//         // Now set these to your TextViews, ImageViews, etc.
-//         findViewById<TextView>(R.id.titleTextView).text = title
-//         findViewById<TextView>(R.id.descriptionTextView).text = description
-//         findViewById<ImageView>(R.id.imageView).setImageResource(imageID)
-//     }
-// }
