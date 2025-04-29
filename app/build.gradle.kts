@@ -12,8 +12,8 @@ if (localPropertiesFile.exists()) {
 
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.firebase-perf")
+    id("com.google.gms.google-services")   //For Firebase
+    id("com.google.firebase.firebase-perf")  //For Firebase
 //    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -117,9 +117,11 @@ dependencies {
     // Truth library for better assertions
     testImplementation("com.google.truth:truth:1.1.3")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    //For Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-auth") // For user signup
 
     // Compose dependencies to trasnfer jetpack compose to XML
     implementation("androidx.compose.ui:ui:1.7.8")
