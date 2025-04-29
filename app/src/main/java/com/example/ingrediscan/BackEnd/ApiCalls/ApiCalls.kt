@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 // commented out since main isn't being used
-// import kotlinx.coroutines.runBlocking
+//import kotlinx.coroutines.runBlocking
 import com.example.ingrediscan.BuildConfig
 
 object FoodApiService {
@@ -83,12 +83,28 @@ object FoodApiService {
             val foodItem = response.foods.maxByOrNull { it.foodNutrients.size }
 
             if (foodItem != null) {
+                // --- Averages ---
+                val proteinValues = filtered.mapNotNull {
+                    it.foodNutrients.find { n -> n.nutrientName.equals("Protein", ignoreCase = true) }?.value
+                }
+                val avgProtein = proteinValues.averageOrNull()
+
+                val calorieValues = filtered.mapNotNull {
+                    it.foodNutrients.find { n -> n.nutrientName.equals("Energy", ignoreCase = true) }?.value
+                }
+                val avgCalories = calorieValues.averageOrNull()
+
+                val carbValues = filtered.mapNotNull {
+                    it.foodNutrients.find { n -> n.nutrientName.equals("Carbohydrate, by difference", ignoreCase = true) }?.value
+                }
+                val avgCarbs = carbValues.averageOrNull()
+
                 foodItem.foodNutrients.forEach { nutrient ->
                     when (nutrient.nutrientName.lowercase()) {
-                        "protein" -> requiredFoodNutrients.protein = "${nutrient.value} ${nutrient.unitName}"
+                        "protein" -> requiredFoodNutrients.protein = "${"%.2f".format(avgProtein ?: 0.0)} ${nutrient.unitName}"
                         "total lipid (fat)" -> requiredFoodNutrients.fats = "${nutrient.value} ${nutrient.unitName}"
-                        "carbohydrate, by difference" -> requiredFoodNutrients.carbs = "${nutrient.value} ${nutrient.unitName}"
-                        "energy" -> requiredFoodNutrients.calories = "${nutrient.value} Calories"
+                        "carbohydrate, by difference" -> requiredFoodNutrients.carbs = "${"%.2f".format(avgCarbs ?: 0.0)} ${nutrient.unitName}"
+                        "energy" -> requiredFoodNutrients.calories = "${"%.2f".format(avgCalories ?: 0.0)} Calories"
                         "total sugars" -> requiredFoodNutrients.sugar = "${nutrient.value} ${nutrient.unitName}"
                         "fiber, total dietary" -> requiredFoodNutrients.fiber = "${nutrient.value} ${nutrient.unitName}"
                         "cholesterol" -> requiredFoodNutrients.cholesterol = "${nutrient.value} ${nutrient.unitName}"
@@ -120,21 +136,6 @@ object FoodApiService {
                         }
                     }
                 }
-                // --- Averages ---
-                val proteinValues = filtered.mapNotNull {
-                    it.foodNutrients.find { n -> n.nutrientName.equals("Protein", ignoreCase = true) }?.value
-                }
-                val avgProtein = proteinValues.averageOrNull()
-
-                val calorieValues = filtered.mapNotNull {
-                    it.foodNutrients.find { n -> n.nutrientName.equals("Energy", ignoreCase = true) }?.value
-                }
-                val avgCalories = calorieValues.averageOrNull()
-
-                val carbValues = filtered.mapNotNull {
-                    it.foodNutrients.find { n -> n.nutrientName.equals("Carbohydrate, by difference", ignoreCase = true) }?.value
-                }
-                val avgCarbs = carbValues.averageOrNull()
 
                 //println("\nAverages across ${filtered.size} items:")
                 println("Protein: ${"%.2f".format(avgProtein ?: 0.0)} G")
@@ -204,6 +205,7 @@ object FoodApiService {
 }
 
 // Example of how to retrieve data from the foodItem object
+
 /*
 fun main() = runBlocking {
     val foodName = "clam chowder" // Example food name to search

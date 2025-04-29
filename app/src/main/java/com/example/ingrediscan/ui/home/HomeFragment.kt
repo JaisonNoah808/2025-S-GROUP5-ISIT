@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
 
             //Used to pass the meal type info to the LogMealBySearch fragment
             val bundle = Bundle().apply {
-                putString("mealType", "BREAKFAST")
+                putString("mealType", "Breakfast")
             }
 
             // Navigate to LogMealBySearchFragment from Log Meal for Breakfast button
@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
 
             //Used to pass the meal type info to the LogMealBySearch fragment
             val bundle = Bundle().apply {
-                putString("mealType", "LUNCH")
+                putString("mealType", "Lunch")
             }
 
             // Navigate to LogMealBySearchFragment from Log Meal for Lunch button
@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
 
             //Used to pass the meal type info to the LogMealBySearch fragment
             val bundle = Bundle().apply {
-                putString("mealType", "DINNER")
+                putString("mealType", "Dinner")
             }
 
             // Navigate to LogMealBySearchFragment from Log Meal for Dinner button
@@ -92,11 +92,16 @@ class HomeFragment : Fragment() {
 
             //Used to pass the meal type info to the LogMealBySearch fragment
             val bundle = Bundle().apply {
-                putString("mealType", "SNACK")
+                putString("mealType", "Snack")
             }
 
             //Navigate to LogMealBySearchFragment from Log Meal for Snack Button
             findNavController().navigate(R.id.navigation_log_meal_by_search, bundle)
+        }
+
+        val viewAllButton: View = binding.viewAll
+        viewAllButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_previous_results)
         }
 
         return root
@@ -106,4 +111,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
