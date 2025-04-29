@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true" android:drawable="@drawable/rounded_corner_focused" />
-    <item android:drawable="@drawable/rounded_corner_background" />
+    <item android:drawable="@drawable/rounded_corner_gray_background" />
 </selector>
