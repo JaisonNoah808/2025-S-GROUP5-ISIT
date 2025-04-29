@@ -64,6 +64,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -79,6 +80,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.vision.common)
     implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
