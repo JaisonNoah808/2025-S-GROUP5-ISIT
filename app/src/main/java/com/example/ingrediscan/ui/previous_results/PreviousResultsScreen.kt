@@ -93,75 +93,64 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             }
         }
 
-        // 2. Scrollable Content Below Top Bar
-        LazyColumn(
+        // Content below the top bar
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(770.dp)
                 .padding(top = 60.dp) // Account for top bar
                 .padding(horizontal = 16.dp)
         ) {
-            // 3. Calorie Summary Box
+            // 1. Calorie Summary Box
             selectedItem?.let { item ->
                 // Calorie Summary for selected item only
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CalBox(
-                        totalCalories = item.calories,
-                        protein = item.protein,
-                        carbs = item.carbs,
-                        fat = item.fat
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
+                Spacer(modifier = Modifier.height(16.dp))
+                CalBox(
+                    totalCalories = item.calories,
+                    protein = item.protein,
+                    carbs = item.carbs,
+                    fat = item.fat
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // 4. All Scanned Items (BlueBoxes)
-                item {
-                    BlueBox(
-                        name = item.name,
-                        brand = item.brand,
-                        calories = item.calories,
-                        protein = item.protein,
-                        carbs = item.carbs,
-                        fat = item.fat,
-                        grade = item.grade
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-            }
-
-            // 5. Recent Scans Section
-            item {
-                HistoryBox(scannedItems)
+                // 2. Summary of selected item
+                BlueBox(
+                    name = item.name,
+                    brand = item.brand,
+                    calories = item.calories,
+                    protein = item.protein,
+                    carbs = item.carbs,
+                    fat = item.fat,
+                    grade = item.grade
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // 6. Manual Log Button (Fixed at the bottom)
-            item {
-                ManualLog()
-            }
+            // 3. Recent Scans Section
+            HistoryBox(scannedItems)
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 // ====== CALORIE SUMMARY BOX ======
 @Composable
 private fun CalBox(
-    totalCalories: Int,
-    protein: Int,
-    carbs: Int,
-    fat: Int
+    totalCalories: Int, // total calories of the item (for the big circle)
+    protein: Int,        // grams of protein
+    carbs: Int,          // grams of carbs
+    fat: Int             // grams of fat
 ) {
-    // Convert macronutrients to their calorie contributions
-    val proteinCalories = protein * 4
-    val carbCalories = carbs * 4
-    val fatCalories = fat * 9
+    // Calculate the total grams of macros (protein + carbs + fat)
+    val totalGrams = (protein + carbs + fat).coerceAtLeast(1)
+    // coerceAtLeast(1) prevents divide-by-zero errors if all macros are 0
 
-    // Calculate the percentage of total calories each macro contributes
-    val proteinPercent = (proteinCalories.toFloat() / totalCalories).coerceIn(0f, 1f)
-    val carbPercent = (carbCalories.toFloat() / totalCalories).coerceIn(0f, 1f)
-    val fatPercent = (fatCalories.toFloat() / totalCalories).coerceIn(0f, 1f)
+    // Calculate the percentage of each macro based on total grams
+    val proteinPercent = (protein.toFloat() / totalGrams).coerceIn(0f, 1f)
+    val carbPercent = (carbs.toFloat() / totalGrams).coerceIn(0f, 1f)
+    val fatPercent = (fat.toFloat() / totalGrams).coerceIn(0f, 1f)
+    // coerceIn(0f, 1f) keeps percentages between 0% and 100%
 
-    // Container box for the calorie and macro summary
+    // Main container for the Calorie + Macronutrient summary
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -171,23 +160,24 @@ private fun CalBox(
         contentAlignment = Alignment.CenterStart
     ) {
         Row {
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(24.dp)) // Small padding on the left
 
-            // Circular calorie meter
+            // Circle that shows total calories progress toward 2000 kcal
             CircleWithMeter(
                 progress = (totalCalories / 2000f).coerceAtMost(1f),
-                text1 = "$totalCalories",
-                text2 = "Calories",
+                text1 = "$totalCalories", // Center text: calorie amount
+                text2 = "Calories",        // Label under the number
                 modifier = Modifier.size(150.dp)
             )
 
-            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.width(20.dp)) // Space between circle and bars
 
-            // Macro nutrient breakdown bars
+            // Column for the 3 macro progress bars
             Column(
                 modifier = Modifier.height(150.dp),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
+                // Each progress bar shows how much % of the macros is protein, carbs, or fat
                 NutrientProgressBar("PROTEIN", protein, proteinPercent, Color(0xFF4CAF50))
                 NutrientProgressBar("CARBS", carbs, carbPercent, Color(0xFF2196F3))
                 NutrientProgressBar("FAT", fat, fatPercent, Color(0xFFFF6F61))
@@ -195,6 +185,7 @@ private fun CalBox(
         }
     }
 }
+
 
 // ====== INDIVIDUAL SCAN DISPLAY BOX ======
 @Composable
@@ -278,7 +269,7 @@ private fun HistoryBox(items: List<ScannedItem>) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(240.dp)
             .clip(shape = RoundedCornerShape(10.dp))
             .background(Color.White)
     ) {
@@ -291,7 +282,7 @@ private fun HistoryBox(items: List<ScannedItem>) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Recent Scans",
+                    text = "Recent Meals",
                     fontSize = 28.sp,
                     color = Color.White,
                     modifier = Modifier.padding(5.dp)
@@ -317,54 +308,54 @@ private fun HistoryBox(items: List<ScannedItem>) {
 }
 
 // ====== BUTTON FOR MANUAL ENTRY ======
-@Composable
-private fun ManualLog() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .clip(shape = RoundedCornerShape(10.dp))
-            .background(DarkForegroundColor)
-            .clickable { } // Dialog to enter manually
-    ) {
-        // Cutout circle for design
-        Canvas(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .size(80.dp)
-        ) {
-            drawCircle(
-                color = Color.DarkGray,
-                radius = size.minDimension / 1f,
-                center = Offset(size.width / 2, size.height / 2)
-            )
-        }
-
-        // Button content
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Enter Manually",
-                fontSize = 30.sp,
-                color = Color.White,
-                fontWeight = FontWeight.Normal
-            )
-            Image(
-                painter = painterResource(id = R.drawable.barpng),
-                contentDescription = "Barcode Icon",
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier
-                    .size(90.dp)
-                    .padding(end = 25.dp)
-            )
-        }
-    }
-}
+//@Composable
+//private fun ManualLog() {
+//    Box(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .height(80.dp)
+//            .clip(shape = RoundedCornerShape(10.dp))
+//            .background(DarkForegroundColor)
+//            .clickable { } // Dialog to enter manually
+//    ) {
+//        // Cutout circle for design
+//        Canvas(
+//            modifier = Modifier
+//                .align(Alignment.CenterEnd)
+//                .size(80.dp)
+//        ) {
+//            drawCircle(
+//                color = Color.DarkGray,
+//                radius = size.minDimension / 1f,
+//                center = Offset(size.width / 2, size.height / 2)
+//            )
+//        }
+//
+//        // Button content
+//        Row(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(start = 20.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Text(
+//                text = "Enter Manually",
+//                fontSize = 30.sp,
+//                color = Color.White,
+//                fontWeight = FontWeight.Normal
+//            )
+//            Image(
+//                painter = painterResource(id = R.drawable.barpng),
+//                contentDescription = "Barcode Icon",
+//                colorFilter = ColorFilter.tint(Color.White),
+//                modifier = Modifier
+//                    .size(90.dp)
+//                    .padding(end = 25.dp)
+//            )
+//        }
+//    }
+//}
 
 // ====== CIRCULAR CALORIE METER ======
 @Composable
@@ -406,7 +397,7 @@ private fun CircleWithMeter(
 private fun NutrientProgressBar(
     label: String,
     amount: Int,       // e.g. 10g
-    percent: Float,    // e.g. 0.25 (25% of calories)
+    percent: Float,    // e.g. 0.25 (25% of grams)
     color: Color
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -414,7 +405,7 @@ private fun NutrientProgressBar(
             Text(text = label, fontSize = 15.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = "${(percent * 100).toInt()}% of calories", // Shows percent of total kcal
+                text = "${(percent * 100).toInt()}% of grams", // Shows percent of total kcal
                 fontSize = 14.sp,
                 color = Color.Gray
             )
