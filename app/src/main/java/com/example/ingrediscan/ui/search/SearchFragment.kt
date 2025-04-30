@@ -153,6 +153,11 @@ class SearchFragment : Fragment() {
                     putString("title", item.name)
                     putString("description", item.description)
                     putInt("imageID", item.imageID)
+                    putInt("calories", item.calories)
+                    putInt("protein", item.protein)
+                    putInt("carbs", item.carbs)
+                    putInt("fat", item.fat)
+                    putString("grade", item.grade)
                 }
                 findNavController().navigate(R.id.search_detail_result, bundle)
                 
