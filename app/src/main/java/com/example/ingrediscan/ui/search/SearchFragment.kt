@@ -16,8 +16,15 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import androidx.core.content.ContextCompat
-import android.widget.ImageView
 import android.widget.LinearLayout
+import android.content.Intent
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
+import android.content.Intent
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -118,6 +125,20 @@ class SearchFragment : Fragment() {
             
             // add item to screen
             container.addView(cardView)
+
+            // When "Read More" button is clicked:
+            val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
+            readMoreButton.setOnClickListener {
+                // pass SearchResult arguments to display on new page
+                val bundle = Bundle().apply {
+                    putString("title", item.name)
+                    putString("description", item.description)
+                    putInt("imageID", item.imageID)
+                }
+                findNavController().navigate(R.id.search_detail_result, bundle)
+                
+            }
+
         }
     }
 
