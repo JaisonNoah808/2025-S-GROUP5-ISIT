@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -61,14 +62,13 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(70.dp)
+                    .height(60.dp)
                     .background(Color.White)
                     .border(
                         width = 1.dp,
                         brush = SolidColor(Color.DarkGray),
                         shape = RectangleShape
-                    )
-                    .padding(top = 22.dp),
+                    ),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -98,7 +98,7 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(770.dp)
-                .padding(top = 70.dp) // Account for top bar
+                .padding(top = 60.dp) // Account for top bar
                 .padding(horizontal = 16.dp)
         ) {
             // 3. Calorie Summary Box
@@ -439,8 +439,9 @@ private fun NutrientProgressBar(
 }
 
 // ====== GRADE BADGE (WAVY CIRCLE) ======
+// fontSize: TextUnit for dynamic resizing
 @Composable
-private fun WavyCircleExample(text: String) {
+fun WavyCircleExample(text: String, fontSize: TextUnit = 60.sp) {
     // Calculate colors based on grade
     val (fillColor, borderColor) = gradeToColors(text)
     Box {
@@ -473,7 +474,7 @@ private fun WavyCircleExample(text: String) {
         Text(
             text = text,
             color = Color.White,
-            fontSize = 60.sp,
+            fontSize = fontSize,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
         )
@@ -489,7 +490,7 @@ private fun gradeToColors(grade: String): Pair<Color, Color> {
         'B' -> Pair(GradeBlue, GradeDarkBlue)
         'C' -> Pair(GradeYellow, GradeDarkYellow)
         'D' -> Pair(GradeOrange, GradeDarkOrange)
-        'F' -> Pair(GradeRed, GradeDarkRed)
+        'E' -> Pair(GradeRed, GradeDarkRed)
         else -> Pair(GradeGray, GradeDarkGray)
     }
 }

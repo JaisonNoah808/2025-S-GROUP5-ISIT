@@ -171,7 +171,7 @@ class LogMealBySearchViewModel : ViewModel() {
         3. Returns: the formatted date + time as a string
      */
     fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd-HH:mm:ss", Locale.getDefault())
         val date = Date()
         return dateFormat.format(date)
     }
@@ -190,7 +190,7 @@ class LogMealBySearchViewModel : ViewModel() {
          */
 
         val timestamp = getCurrentTime()
-        val uniqueFoodName = "$timestamp $foodName"
+        val uniqueFoodName = "$timestamp+$foodName"
 
         val nutritionMap = mapOf(
             "Calories" to (_calories.value ?: "0 Calories"),
@@ -199,7 +199,6 @@ class LogMealBySearchViewModel : ViewModel() {
             "Carbs" to (_carbs.value ?: "0.0 G"),
             "MealType" to mealType
         )
-        Log.d("DB-test", "Calories: " + _calories.value)
 
         db.collection("loggedMeals")
             //creates the unique document (like a key in a hashmap)

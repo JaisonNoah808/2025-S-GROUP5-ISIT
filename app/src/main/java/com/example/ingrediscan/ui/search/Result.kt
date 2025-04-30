@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 
 data class SearchResult(
     val id: Int,
+    val imageID: Int,
     val name: String,
     val calories: Int,      // in kcal
     val protein: Int,       // in grams
