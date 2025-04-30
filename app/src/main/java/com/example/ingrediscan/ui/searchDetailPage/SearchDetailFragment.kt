@@ -33,10 +33,20 @@ class SearchDetailFragment : Fragment() {
         val title = arguments?.getString("title") ?: "No Title"
         val description = arguments?.getString("description") ?: "No Description"
         val imageID = arguments?.getInt("imageID") ?: 0
+        val calories = arguments?.getInt("calories")?.let { "$it cal" } ?: "No Calories"
+        val protein = arguments?.getInt("protein")?.let { "Protein: $it g" } ?: "Protein: N/A"
+        val carbs = arguments?.getInt("carbs")?.let { "Carbs: $it g" } ?: "No Carbs"
+        val fat = arguments?.getInt("fat")?.let { "Fat: $it g" } ?: "No Fat"
+        val grade = arguments?.getString("grade") ?: "No Grade"
 
         binding.titleTextView.text = title
         binding.descriptionTextView.text = description
         binding.imageView.setImageResource(imageID)
+        binding.calorieTextView.text = calories
+        binding.proteinTextView.text = protein
+        binding.carbTextView.text = carbs
+        binding.fatTextView.text = fat
+        binding.gradeTextView.text = grade
 
         return binding.root
     }
