@@ -18,8 +18,9 @@
             android:text="@string/create_account"
             android:fontFamily="@font/fugazone_regular"
             android:textColor="@color/green"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:paddingTop="30dp"/>
 
         <EditText
             android:id="@+id/enterFullname"
@@ -30,12 +31,15 @@
             android:layout_marginTop="40dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/rounded_corner_background"
+            android:background="@drawable/input_box_background"
             android:ems="10"
             android:hint="@string/fullname"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:paddingBottom="30dp" />
+            android:paddingBottom="20dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>/>
 
         <EditText
             android:id="@+id/enterUsername"
@@ -46,12 +50,15 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/rounded_corner_background"
+            android:background="@drawable/input_box_background"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="text"
             android:paddingLeft="15dp"
-            android:paddingBottom="30dp" />
+            android:paddingBottom="20dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <EditText
             android:id="@+id/enterPassword"
@@ -62,12 +69,15 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/rounded_corner_background"
+            android:background="@drawable/input_box_background"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingLeft="15dp"
-            android:paddingBottom="30dp" />
+            android:paddingBottom="20dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <EditText
             android:id="@+id/confirmPassword"
@@ -78,29 +88,61 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/rounded_corner_background"
+            android:background="@drawable/input_box_background"
             android:ems="10"
             android:hint="@string/confirmpw"
             android:inputType="textPassword"
             android:paddingLeft="15dp"
-            android:paddingBottom="30dp" />
+            android:paddingBottom="20dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignup"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
+            android:layout_width="270dp"
+            android:layout_height="64dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="16dp"
-            android:maxWidth="200dp"
-            android:text="@string/signup"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/fugazone_regular"
+            android:text="@string/signup"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold|italic"
+            android:textSize="30sp"
             app:backgroundTint="@color/green"
             app:cornerRadius="30dp" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/haveAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="@string/have_account"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/Linksignin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/satoshi_bold"
+                tools:text="@string/signin" />
+            </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

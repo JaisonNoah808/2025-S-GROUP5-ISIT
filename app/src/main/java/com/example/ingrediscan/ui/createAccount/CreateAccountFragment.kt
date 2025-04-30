@@ -41,7 +41,11 @@ class CreateAccountFragment : Fragment() {
 
             // successful sign up
             findNavController().navigate(R.id.signup_to_home)
+        }
 
+        // go back to login page if already have an account
+        binding.Linksignin.setOnClickListener {
+            findNavController().navigate(R.id.signup_to_login)
         }
 
         return root
