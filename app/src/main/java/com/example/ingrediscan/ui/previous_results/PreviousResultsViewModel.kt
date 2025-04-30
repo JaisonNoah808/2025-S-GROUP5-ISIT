@@ -41,7 +41,18 @@ class PreviousResultsViewModel : ViewModel() {
                     val protein = proteinStr.split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
                     val fat = fatStr.split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
                     val carbs = carbsStr.split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
-                    val grade = "A"
+                    var grade = "A"
+
+                    if(actualFoodName == "BLT")
+                        grade = "C"
+                    else if(actualFoodName == "Steak")
+                        grade = "B+"
+                    else if(actualFoodName == "Greek Yogurt")
+                        grade = "A"
+                    else if(actualFoodName == "McFlurry")
+                        grade = "D"
+                    else
+                        grade = "C"
 
                     // Once everything is ready, call ScannedItem()
                     scannedItemsList.add(
