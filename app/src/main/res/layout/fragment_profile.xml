@@ -148,6 +148,7 @@
         android:layout_marginTop="36dp"
         android:gravity="start|center_vertical"
         android:text="@string/profile_change_password"
+        android:fontFamily="@font/fugazone_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bmiBox" />
