@@ -191,7 +191,6 @@ class SearchFragment : Fragment() {
         return text.trim().split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
     }
 
-
     private fun displaySearchResult(foodItem: FoodApiService.FoodItem, containerIndex: Int) {
         val nutrients = foodItem.foodNutrients.associate { it.nutrientName to it.value }
 
@@ -234,6 +233,11 @@ class SearchFragment : Fragment() {
                 putString("title", searchResult.name)
                 putString("description", searchResult.description)
                 putInt("imageID", searchResult.imageID)
+                putInt("calories", searchResult.calories)
+                putInt("protein", searchResult.protein)
+                putInt("carbs", searchResult.carbs)
+                putInt("fat", searchResult.fat)
+                putString("grade", searchResult.grade)
             }
             findNavController().navigate(R.id.search_detail_result, bundle)
         }
