@@ -12,17 +12,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentSearchBinding
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import androidx.core.content.ContextCompat
-import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Button
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService
+import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.RequiredFoodNutrients
+import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.FoodItem
+import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.FoodNutrient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 
 class SearchFragment : Fragment() {
 
@@ -48,10 +51,10 @@ class SearchFragment : Fragment() {
 
         return root
     }
-    
+
     // Creates layout for 1 SearchResult item
     private fun createSearchResultView(item: SearchResult): View {
-        // get new search_result.xml file 
+        // get new search_result.xml file
         val view = layoutInflater.inflate(R.layout.search_result, null)
 
         // initialize text, image, pie chart views
@@ -59,13 +62,13 @@ class SearchFragment : Fragment() {
         val calorieText = view.findViewById<TextView>(R.id.foodDrinkCaloriesLabel)
         val imageView = view.findViewById<ImageView>(R.id.foodDrinkIcon)
         val pieChartView = view.findViewById<PieChart>(R.id.pieChart)
-        
+
         // assign variables based on SearchResult object params
         titleText.text = item.name
         calorieText.text = "${item.calories} cal"
         item.makePieChart(requireContext(), pieChartView)
         imageView.setImageResource(item.imageID)
-        
+
         return view
     }
 
@@ -81,11 +84,19 @@ class SearchFragment : Fragment() {
 
             // Call the function when user submits a search
             override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("SearchFragment", "User searched: $query")
                 query?.let { performSearch(it) }
+
+                // Hide the keyboard
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.searchView.windowToken, 0)
+
+                // Optionally clear focus so keyboard stays hidden
+                binding.searchView.clearFocus()
+
                 return true
             }
 
-            // Future TODO: filter results live as the user types (set to false right now)
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
@@ -102,12 +113,12 @@ class SearchFragment : Fragment() {
 
         // Combine test items into 1 XML container
         val container = binding.searchResultList
-        
+
         // Build view for each search result
         for (item in searchResultsList) {
             // create view
             val cardView = createSearchResultView(item)
-            
+
             // increase spacing between each item
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -115,24 +126,40 @@ class SearchFragment : Fragment() {
             )
             layoutParams.bottomMargin = (16 * resources.displayMetrics.density).toInt() // 8dp
             cardView.layoutParams = layoutParams
-            
+
             // add item to screen
             container.addView(cardView)
+
+            // When "Read More" button is clicked:
+            val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
+            readMoreButton.setOnClickListener {
+                // pass SearchResult arguments to display on new page
+                val bundle = Bundle().apply {
+                    putString("title", item.name)
+                    putString("description", item.description)
+                    putInt("imageID", item.imageID)
+                    putInt("calories", item.calories)
+                    putInt("protein", item.protein)
+                    putInt("carbs", item.carbs)
+                    putInt("fat", item.fat)
+                    putString("grade", item.grade)
+                }
+                findNavController().navigate(R.id.search_detail_result, bundle)
+
+            }
+
         }
     }
 
     private fun performSearch(query: String) {
-        Log.d("SearchFragment", "Searching for: $query")
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val foodItem = FoodApiService.fetchFoodInfo(query)
+                val nutrients = FoodApiService.fetchFoodInfo(query)
+                val foodItem = requiredNutrientsToFoodItem(query, nutrients)
+                Log.d("SearchFragment", "Calling displaySearchResult with: $foodItem")
+
                 withContext(Dispatchers.Main) {
-                    if (foodItem != null) {
-                        displaySearchResult(foodItem, 0) // Display in first container
-                    } else {
-                        showNoResultsMessage()
-                    }
+                    displaySearchResult(foodItem, 0)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -142,11 +169,35 @@ class SearchFragment : Fragment() {
         }
     }
 
+    // Converts RequiredNutrients to FoodItem object for proper searching
+    fun requiredNutrientsToFoodItem(query: String, nutrients: RequiredFoodNutrients): FoodItem {
+        val foodNutrients = listOf(
+            FoodNutrient("Energy", extractFirstNumber(nutrients.calories).toDouble(), "cal"),
+            FoodNutrient("Protein", extractFirstNumber(nutrients.protein).toDouble(), "g"),
+            FoodNutrient("Carbohydrate, by difference", extractFirstNumber(nutrients.carbs).toDouble(), "g"),
+            FoodNutrient("Total lipid (fat)", extractFirstNumber(nutrients.fats).toDouble(), "g")
+        )
+
+        return FoodItem(
+            description = query,
+            foodNutrients = foodNutrients,
+            ingredients = "No ingredients info available",
+            dataType = "FoodItem"
+        )
+    }
+
+    // Helper function to convert nutritional info from string to numeric
+    fun extractFirstNumber(text: String): Int {
+        return text.trim().split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
+    }
+
+
     private fun displaySearchResult(foodItem: FoodApiService.FoodItem, containerIndex: Int) {
         val nutrients = foodItem.foodNutrients.associate { it.nutrientName to it.value }
 
         val searchResult = SearchResult(
             id = 1,
+            imageID = R.drawable.default_image,
             name = foodItem.description,
             calories = nutrients["Energy"]?.toInt() ?: 0,
             protein = nutrients["Protein"]?.toInt() ?: 0,
@@ -156,26 +207,39 @@ class SearchFragment : Fragment() {
             description = foodItem.ingredients ?: "No ingredients information available"
         )
 
-        when (containerIndex) {
-            0 -> {
-                binding.foodDrinkContainer.visibility = View.VISIBLE
-                binding.foodDrinkTitle.text = searchResult.name
-                binding.foodDrinkCaloriesLabel.text = "${searchResult.calories} cal"
-                searchResult.makePieChart(requireContext(), binding.pieChart)
+        // create view
+        Log.d("SearchFragment", "Creating view for: ${searchResult.name}")
+
+        val searchResultList = mutableListOf<SearchResult>()
+        searchResultList.add(searchResult)
+        val cardView = createSearchResultView(searchResult)
+        val container = binding.searchResultList
+        container.removeAllViews()
+
+
+        // increase spacing between each item
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.bottomMargin = (16 * resources.displayMetrics.density).toInt() // 8dp
+        cardView.layoutParams = layoutParams
+
+
+        // When "Read More" button is clicked:
+        val readMoreButton = cardView.findViewById<Button>(R.id.readMoreButton)
+        readMoreButton.setOnClickListener {
+            // pass SearchResult arguments to display on new page
+            val bundle = Bundle().apply {
+                putString("title", searchResult.name)
+                putString("description", searchResult.description)
+                putInt("imageID", searchResult.imageID)
             }
-            1 -> {
-                binding.foodDrinkContainer2.visibility = View.VISIBLE
-                binding.foodDrinkTitle2.text = searchResult.name
-                binding.foodDrinkCaloriesLabel2.text = "${searchResult.calories} cal"
-                searchResult.makePieChart(requireContext(), binding.pieChart2)
-            }
-            2 -> {
-                binding.foodDrinkContainer3.visibility = View.VISIBLE
-                binding.foodDrinkTitle3.text = searchResult.name
-                binding.foodDrinkCaloriesLabel3.text = "${searchResult.calories} cal"
-                searchResult.makePieChart(requireContext(), binding.pieChart3)
-            }
+            findNavController().navigate(R.id.search_detail_result, bundle)
         }
+
+        container.addView(cardView)
+        container.visibility = View.VISIBLE
     }
 
     private fun calculateGrade(nutrients: Map<String, Double>): String {
@@ -190,9 +254,9 @@ class SearchFragment : Fragment() {
     private fun showNoResultsMessage() {
         binding.searchTitle.text = "No results found"
         // Hide all containers
-        binding.foodDrinkContainer.visibility = View.GONE
-        binding.foodDrinkContainer2.visibility = View.GONE
-        binding.foodDrinkContainer3.visibility = View.GONE
+        // binding.foodDrinkContainer.visibility = View.GONE
+        // binding.foodDrinkContainer2.visibility = View.GONE
+        // binding.foodDrinkContainer3.visibility = View.GONE
     }
 
     private fun showError(message: String) {
