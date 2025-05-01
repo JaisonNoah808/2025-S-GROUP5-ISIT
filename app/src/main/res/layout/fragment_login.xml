@@ -8,7 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -21,10 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/fugazone_regular"
             android:text="@string/ingrediscan"
             android:textColor="@color/green"
-            android:textSize="50sp"
-            android:textStyle="bold" />
+            android:textSize="50sp" />
 
         <TextView
             android:id="@+id/tagline"
@@ -33,6 +35,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:text="@string/subHeader"
+            android:fontFamily="@font/satoshi_bold"
             android:textColor="@color/light_gray"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,11 +88,11 @@
             android:layout_height="64dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/fugazone_regular"
             android:maxWidth="200dp"
             android:text="@string/login"
             android:textColor="@android:color/white"
             android:textSize="30sp"
-            android:textStyle="bold|italic"
             app:backgroundTint="@color/green"
             app:cornerRadius="30dp" />
 
@@ -110,10 +113,10 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/fugazone_regular"
             android:text="@string/signup"
             android:textColor="@color/green"
             android:textSize="30sp"
-            android:textStyle="bold|italic"
             app:backgroundTint="@android:color/white"
             app:cornerRadius="30dp"
             app:strokeColor="@color/green"

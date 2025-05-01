@@ -219,6 +219,7 @@
         android:layout_marginTop="8dp"
         android:gravity="start|center_vertical"
         android:text="@string/profile_change_password"
+        android:fontFamily="@font/fugazone_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"

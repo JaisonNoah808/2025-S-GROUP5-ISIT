@@ -18,6 +18,8 @@
         <item name="android:navigationBarColor">@color/black</item>
         <!-- BottomNavigationView style. -->
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
+        <!-- Default normal font -->
+        <item name="android:fontFamily">@font/satoshi_light</item>
     </style>
 
     <!-- BottomNavigationView style. -->

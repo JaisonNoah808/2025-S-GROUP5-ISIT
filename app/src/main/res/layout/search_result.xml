@@ -80,6 +80,7 @@
             android:textSize="10sp"
             android:clipToOutline="false"
             android:text="@string/read_more"
+            android:fontFamily="@font/fugazone_regular"
             android:textAlignment="viewStart"
             app:layout_constraintTop_toBottomOf="@id/foodDrinkTitle"
             app:layout_constraintStart_toStartOf="parent"

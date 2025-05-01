@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/create_account"
+            android:fontFamily="@font/fugazone_regular"
             android:textColor="@color/green"
             android:textSize="50sp"
             android:textStyle="bold" />
@@ -93,6 +94,7 @@
             android:layout_marginBottom="16dp"
             android:maxWidth="200dp"
             android:text="@string/signup"
+            android:fontFamily="@font/fugazone_regular"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold|italic"
