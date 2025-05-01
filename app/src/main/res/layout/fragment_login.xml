@@ -94,7 +94,7 @@
             android:textColor="@android:color/white"
             android:textSize="30sp"
             app:backgroundTint="@color/green"
-            app:cornerRadius="30dp" />
+            app:cornerRadius="50dp" />
 
         <TextView
             android:id="@+id/noAccount"

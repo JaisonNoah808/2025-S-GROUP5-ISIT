@@ -43,5 +43,7 @@
     <string name="create_account">Create Account</string>
     <string name="fullname">Full Name</string>
     <string name="confirmpw">Confirm Password</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="signin">Sign in</string>
     <string name="Email">Email</string>
 </resources>

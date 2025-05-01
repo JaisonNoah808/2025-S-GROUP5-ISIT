@@ -36,13 +36,15 @@
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#4CAF50"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:fontFamily="@font/fugazone_regular"/>
 
             <TextView
                 android:id="@+id/tagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/subHeader"
+                android:fontFamily="@font/satoshi_bold"
                 android:textSize="16sp"
                 android:textColor="#808080"
                 android:layout_gravity="center"
@@ -56,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Your Day"
+                android:fontFamily="@font/satoshi_bold"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -198,6 +201,7 @@
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="5dp"
                             android:text="@string/SeeAll_underlined"
+                            android:fontFamily="@font/fugazone_regular"
                             android:textColor="#FFFFFF"
                             android:textSize="10sp"
                             android:textStyle="bold"
