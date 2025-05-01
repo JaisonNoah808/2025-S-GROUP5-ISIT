@@ -12,20 +12,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentSearchBinding
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import androidx.core.content.ContextCompat
 import android.widget.LinearLayout
+import androidx.navigation.fragment.findNavController
+import android.content.Intent
 import android.widget.Button
 import android.widget.ImageView
-import androidx.navigation.fragment.findNavController
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.RequiredFoodNutrients
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.FoodItem
 import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService.FoodNutrient
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+
 
 class SearchFragment : Fragment() {
 
@@ -177,11 +184,11 @@ class SearchFragment : Fragment() {
             FoodNutrient("Carbohydrate, by difference", extractFirstNumber(nutrients.carbs).toDouble(), "g"),
             FoodNutrient("Total lipid (fat)", extractFirstNumber(nutrients.fats).toDouble(), "g")
         )
-
+    
         return FoodItem(
             description = query,
             foodNutrients = foodNutrients,
-            ingredients = "No ingredients info available",
+            ingredients = "No ingredients info available", 
             dataType = "FoodItem"
         )
     }
@@ -191,6 +198,7 @@ class SearchFragment : Fragment() {
         return text.trim().split(" ").firstOrNull()?.toDoubleOrNull()?.toInt() ?: 0
     }
 
+    
     private fun displaySearchResult(foodItem: FoodApiService.FoodItem, containerIndex: Int) {
         val nutrients = foodItem.foodNutrients.associate { it.nutrientName to it.value }
 

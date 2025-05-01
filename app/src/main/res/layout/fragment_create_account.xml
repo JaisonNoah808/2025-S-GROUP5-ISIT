@@ -52,7 +52,7 @@
             android:layout_marginBottom="15dp"
             android:background="@drawable/input_box_background"
             android:ems="10"
-            android:hint="@string/username"
+            android:hint="@string/Email"
             android:inputType="text"
             android:paddingLeft="15dp"
             android:paddingBottom="20dp"
