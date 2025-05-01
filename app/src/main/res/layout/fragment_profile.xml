@@ -74,6 +74,86 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileButtonAge" />
 
+    <ImageButton
+        android:id="@+id/profileButtonImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/profile_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_profile_black"
+        app:layout_constraintBottom_toTopOf="@+id/profileButtonWeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profileButtonWeight"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="164dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/profileButtonHeight"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileButtonWeight" />
+
+    <Button
+        android:id="@+id/profileButtonAge"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_age"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileButtonHeight" />
+
+    <Button
+        android:id="@+id/profileButtonSex"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_sex"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileButtonAge" />
+
+
+    <Button
+        android:id="@+id/profileButtonActivityLevel"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_activity_level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileButtonSex" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bmiBox"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/cornered_box_background"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileButtonActivityLevel">
 
         <Button
             android:id="@+id/profileButtonActivityLevel"
@@ -132,6 +212,16 @@
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bmiBox" />
-
+    <Button
+        android:id="@+id/profileButtonPassword"
+        android:layout_width="360dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start|center_vertical"
+        android:text="@string/profile_change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bmiBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
