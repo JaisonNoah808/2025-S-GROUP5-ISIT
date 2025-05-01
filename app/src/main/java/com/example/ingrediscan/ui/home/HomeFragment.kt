@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentHomeBinding
 import androidx.navigation.fragment.findNavController
 import com.example.ingrediscan.R
+import android.util.Log
+import com.example.ingrediscan.BackEnd.ApiCalls.FoodApiService
+import com.example.ingrediscan.ui.home.HomeViewModel
 
 
 class HomeFragment : Fragment() {
@@ -29,7 +32,8 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = homeViewModel
         val caloriesTextView: TextView = binding.caloriesTracked
         val labelTextView: TextView = binding.caloriesLabel
         val progressBar: ProgressBar = binding.progressBar
@@ -37,20 +41,32 @@ class HomeFragment : Fragment() {
         val taglineTextView: TextView = binding.tagline
 
         homeViewModel.caloriesTracked.observe(viewLifecycleOwner) {
-            caloriesTextView.text = it.toString()
+            homeViewModel.loadTotalCaloriesFromDB()
+            //progress bar will update after the loadTotalCaloriesFromDB() is called
+            //ensures that the progress bar value is accurate & synchronized w/ the above function
+            progressBar.progress = homeViewModel.calculateProgress()
         }
 
         homeViewModel.label.observe(viewLifecycleOwner) {
             labelTextView.text = it
         }
 
-        homeViewModel.progress.observe(viewLifecycleOwner){
-            progressBar.progress = it
+        // The food items in the latest foods container updates dynamically
+        // Have them grouped into one via a list to improve performance time
+        homeViewModel.foodItems.observe(viewLifecycleOwner) { foods ->
+            binding.foodItem1.text = foods.getOrNull(0)?.let { "${it.name}\n${it.calories} Calories" } ?: ""
+            binding.foodItem2.text = foods.getOrNull(1)?.let { "${it.name}\n${it.calories} Calories" } ?: ""
+            binding.foodItem3.text = foods.getOrNull(2)?.let { "${it.name}\n${it.calories} Calories" } ?: ""
+            binding.foodItem4.text = foods.getOrNull(3)?.let { "${it.name}\n${it.calories} Calories" } ?: ""
         }
+
+        // Load latest foods when fragment is opened
+        homeViewModel.loadLatestFoods()
+
         appNameTextView.text = "IngrediScan"
         taglineTextView.text = "Nutrition transparency at your fingertips"
 
-        // Find the button and set the click listener
+
         val breakfastAddButton: View = binding.BreakfastAddButton
         breakfastAddButton.setOnClickListener {
 
@@ -104,7 +120,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.navigation_previous_results)
         }
 
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
